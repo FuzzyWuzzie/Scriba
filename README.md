@@ -6,6 +6,8 @@ This is a a small popup tool for entering notes about what you are currently wor
 
 Inspired by [this comment](https://www.reddit.com/r/programming/comments/4otbqr/programmer_interrupted/d4fji2g) from [/u/chrisdoner](https://www.reddit.com/user/chrisdoner).
 
+The Scriba icon is a derivation of work [![CC-BY](http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by.png)](https://thenounproject.com/itsmikerowe/) Mike Rowe.
+
 ## Contibuting Guidelines
 
 This source code repository follows Vincent Driessen's
