@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Scriba"
+				    xmlns:tb="http://www.hardcodet.net/taskbar">
+	<tb:TaskbarIcon x:Key="ScribaIcon"
+                  IconSource="pack://siteoforigin:,,,/Resources/scriba.ico"
+                  ToolTipText="Scriba" />
+</ResourceDictionary>
