@@ -13,6 +13,7 @@ namespace Scriba {
 	public partial class App : Application {
 		private System.Windows.Forms.NotifyIcon notifyIcon;
 		private bool isExit = false;
+		private UnManaged.HotKey showEntryHotKey;
 
 		protected override void OnStartup(StartupEventArgs e) {
 			base.OnStartup(e);
@@ -24,6 +25,8 @@ namespace Scriba {
 			notifyIcon.DoubleClick += (s, args) => ShowMainWindow();
 			notifyIcon.Icon = Scriba.Properties.Resources.scriba;
 			notifyIcon.Visible = true;
+
+			showEntryHotKey = new UnManaged.HotKey(System.Windows.Input.Key.Space, UnManaged.KeyModifier.Alt, OnShowEntryHotKey);
 
 			CreateContextMenu();
 		}
@@ -46,10 +49,15 @@ namespace Scriba {
 			}
 		}
 
+		private void OnShowEntryHotKey(UnManaged.HotKey hotKey) {
+			ShowMainWindow();
+		}
+
 		private void ExitApplication() {
 			isExit = true;
 			MainWindow.Close();
 			notifyIcon.Dispose();
+			showEntryHotKey.Dispose();
 			notifyIcon = null;
 		}
 
