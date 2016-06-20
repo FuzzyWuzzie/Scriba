@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Scriba"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Scriba" Height="33" Width="300" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="Height" Topmost="True" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderThickness="5" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
     <Grid>
-        
-    </Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="12"/>
+		</Grid.RowDefinitions>
+		<TextBox x:Name="textBox" Margin="0" Grid.Row="0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" BorderThickness="0"/>
+		<TextBlock HorizontalAlignment="Right" Grid.Row="1" Text="Derp" FontSize="8" Margin="0,0,1,1" />
+	</Grid>
 </Window>
