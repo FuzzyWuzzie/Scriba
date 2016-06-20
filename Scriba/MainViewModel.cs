@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -36,7 +37,8 @@ namespace Scriba {
 		public ICommand SaveEntry {
 			get {
 				return new DelegateCommand<object>(context => {
-					// TODO: save current entry!
+					string entry = CurrentEntry;
+					App.db.Add(new Entry(entry, DateTime.Now));
 
 					CurrentEntry = "";
 					App.Current.MainWindow.Hide();
