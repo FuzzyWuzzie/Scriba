@@ -1,6 +1,6 @@
 # Scriba
 
-[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/FuzzyWuzzie/Scriba/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/FuzzyWuzzie/Scriba.svg)](https://github.com/FuzzyWuzzie/Scriba/issues) [![Ready Issues](https://img.shields.io/waffle/label/FuzzyWuzzie/Scriba/ready.svg)](https://waffle.io/FuzzyWuzzie/Scriba) [![In Progress Issues](https://img.shields.io/waffle/label/FuzzyWuzzie/Scriba/in%20progress.svg)](https://waffle.io/FuzzyWuzzie/Scriba)
+[![GitHub license](https://img.shields.io/github/license/FuzzyWuzzie/Scriba.svg)](https://raw.githubusercontent.com/FuzzyWuzzie/Scriba/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/FuzzyWuzzie/Scriba.svg)](https://github.com/FuzzyWuzzie/Scriba/issues) [![Ready Issues](https://img.shields.io/waffle/label/FuzzyWuzzie/Scriba/ready.svg)](https://waffle.io/FuzzyWuzzie/Scriba) [![In Progress Issues](https://img.shields.io/waffle/label/FuzzyWuzzie/Scriba/in%20progress.svg)](https://waffle.io/FuzzyWuzzie/Scriba) [![Release](https://img.shields.io/github/release/FuzzyWuzzie/Scriba.svg)](https://github.com/FuzzyWuzzie/Scriba/releases)
 
 This is a a small popup tool for entering notes about what you are currently working on (and reviewing them later).
 
