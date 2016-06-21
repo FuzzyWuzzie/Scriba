@@ -69,7 +69,7 @@ namespace Scriba {
 			ShowMainWindow();
 		}
 
-		private void ExitApplication() {
+		public void ExitApplication() {
 			isExit = true;
 			MainWindow.Close();
 			if(entriesWindow != null) {
