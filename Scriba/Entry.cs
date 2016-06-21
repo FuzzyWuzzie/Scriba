@@ -1,8 +1,8 @@
 ﻿using System;
 namespace Scriba {
 	public class Entry {
-		public string entry = "";
-		public DateTime time;
+		public string entry { get; private set; }
+		public DateTime time { get; private set; }
 
 		public Entry(string entry) {
 			this.entry = entry;
