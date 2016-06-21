@@ -1,13 +1,13 @@
 ﻿using System.Windows;
+using System.Windows.Forms;
 
 namespace Scriba {
-	/// <summary>
-	/// Interaction logic for App.xaml
-	/// </summary>
-	public partial class App : Application {
-		private System.Windows.Forms.NotifyIcon notifyIcon;
+	public partial class App : System.Windows.Application {
+		private NotifyIcon notifyIcon;
 		private bool isExit = false;
 		private UnManaged.HotKey showEntry;
+
+		private EntriesWindow entriesWindow;
 
 		public static EntryDatabase db = new EntryDatabase();
 
@@ -19,7 +19,7 @@ namespace Scriba {
 			MainWindow.Closing += MainWindow_Closing;
 
 			// add a notification icon
-			notifyIcon = new System.Windows.Forms.NotifyIcon();
+			notifyIcon = new NotifyIcon();
 			notifyIcon.DoubleClick += (s, args) => ShowMainWindow();
 			notifyIcon.Icon = Scriba.Properties.Resources.scriba;
 			notifyIcon.Visible = true;
@@ -34,12 +34,16 @@ namespace Scriba {
 		}
 
 		private void CreateContextMenu() {
-			notifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
-			notifyIcon.ContextMenuStrip.Items.Add("Show").Click += (s, e) => ShowMainWindow();
+			notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+			notifyIcon.ContextMenuStrip.Items.Add("New Entry").Click += (s, e) => ShowMainWindow();
+			notifyIcon.ContextMenuStrip.Items.Add("Show Entries").Click += (s, e) => ShowEntriesWindow();
+			notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
+			notifyIcon.ContextMenuStrip.Items.Add("Settings");
+			notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
 			notifyIcon.ContextMenuStrip.Items.Add("Exit").Click += (s, e) => ExitApplication();
 		}
 
-		private void ShowMainWindow() {
+		public void ShowMainWindow() {
 			if(MainWindow.IsVisible) {
 				if(MainWindow.WindowState == WindowState.Minimized) {
 					MainWindow.WindowState = WindowState.Normal;
@@ -51,6 +55,16 @@ namespace Scriba {
 			}
 		}
 
+		public void ShowEntriesWindow() {
+			if(entriesWindow == null) {
+				entriesWindow = new EntriesWindow();
+				entriesWindow.Show();
+				entriesWindow.Closed += (s, e) => {
+					entriesWindow = null;
+				};
+			}
+		}
+
 		private void OnShowEntryHotKey(UnManaged.HotKey hotKey) {
 			ShowMainWindow();
 		}
@@ -58,6 +72,9 @@ namespace Scriba {
 		private void ExitApplication() {
 			isExit = true;
 			MainWindow.Close();
+			if(entriesWindow != null) {
+				entriesWindow.Close();
+			}
 			notifyIcon.Dispose();
 			showEntry.Dispose();
 			db.Dispose();
