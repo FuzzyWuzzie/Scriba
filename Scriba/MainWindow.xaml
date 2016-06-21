@@ -9,18 +9,19 @@
 		ShowInTaskbar="False" SizeToContent="Height" Topmost="True" WindowStartupLocation="CenterScreen"
 		WindowStyle="None" BorderThickness="5" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
 	<Window.InputBindings>
-		<KeyBinding Key="Esc" Command="{Binding Hide}"/>
+		<KeyBinding Key="Escape" Command="{Binding Hide}"/>
 		<KeyBinding Key="Return" Command="{Binding SaveEntry}"/>
 	</Window.InputBindings>
 	<Window.DataContext>
-		<local:MainViewModel></local:MainViewModel>
+		<local:MainViewModel />
 	</Window.DataContext>
-    <Grid FocusManager.FocusedElement="{Binding ElementName=textBox}">
+	<Grid FocusManager.FocusedElement="{Binding ElementName=EntryBox}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="12"/>
 		</Grid.RowDefinitions>
-		<TextBox x:Name="textBox" Margin="0" Grid.Row="0" TextWrapping="Wrap" Text="{Binding CurrentEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" BorderThickness="0"/>
+		<TextBox x:Name="EntryBox" Margin="0" Grid.Row="0" TextWrapping="Wrap" Text="{Binding CurrentEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" BorderThickness="0"/>
 		<TextBlock HorizontalAlignment="Right" Grid.Row="1" Text="{Binding CurrentTime, Mode=OneWay}" FontSize="8" Margin="0,0,1,1" />
 	</Grid>
 </Window>
+

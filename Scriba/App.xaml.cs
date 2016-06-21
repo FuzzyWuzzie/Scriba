@@ -2,14 +2,14 @@
 using System.Windows.Forms;
 
 namespace Scriba {
-	public partial class App : System.Windows.Application {
-		private NotifyIcon notifyIcon;
-		private bool isExit = false;
-		private UnManaged.HotKey showEntry;
+	public partial class App {
+		private NotifyIcon _notifyIcon;
+		private bool _isExit;
+		private HotKey _showEntry;
 
-		private EntriesWindow entriesWindow;
+		private EntriesWindow _entriesWindow;
 
-		public static EntryDatabase db = new EntryDatabase();
+		public static EntryDatabase Db = new EntryDatabase();
 
 		protected override void OnStartup(StartupEventArgs e) {
 			base.OnStartup(e);
@@ -19,28 +19,28 @@ namespace Scriba {
 			MainWindow.Closing += MainWindow_Closing;
 
 			// add a notification icon
-			notifyIcon = new NotifyIcon();
-			notifyIcon.DoubleClick += (s, args) => ShowMainWindow();
-			notifyIcon.Icon = Scriba.Properties.Resources.scriba;
-			notifyIcon.Visible = true;
+			_notifyIcon = new NotifyIcon();
+			_notifyIcon.DoubleClick += (s, args) => ShowMainWindow();
+			_notifyIcon.Icon = Scriba.Properties.Resources.scriba;
+			_notifyIcon.Visible = true;
 
 			// add the system-wide hotkey for showing our entry window
-			showEntry = new UnManaged.HotKey(System.Windows.Input.Key.Space, UnManaged.KeyModifier.Alt, OnShowEntryHotKey);
+			_showEntry = new HotKey(System.Windows.Input.Key.Space, KeyModifier.Alt, OnShowEntryHotKey);
 
 			// initialize the database
-			db.Initialize();
+			Db.Initialize();
 
 			CreateContextMenu();
 		}
 
 		private void CreateContextMenu() {
-			notifyIcon.ContextMenuStrip = new ContextMenuStrip();
-			notifyIcon.ContextMenuStrip.Items.Add("New Entry").Click += (s, e) => ShowMainWindow();
-			notifyIcon.ContextMenuStrip.Items.Add("Show Entries").Click += (s, e) => ShowEntriesWindow();
-			notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
-			notifyIcon.ContextMenuStrip.Items.Add("Settings");
-			notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
-			notifyIcon.ContextMenuStrip.Items.Add("Exit").Click += (s, e) => ExitApplication();
+			_notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+			_notifyIcon.ContextMenuStrip.Items.Add("New Entry").Click += (s, e) => ShowMainWindow();
+			_notifyIcon.ContextMenuStrip.Items.Add("Show Entries").Click += (s, e) => ShowEntriesWindow();
+			_notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
+			_notifyIcon.ContextMenuStrip.Items.Add("Settings");
+			_notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
+			_notifyIcon.ContextMenuStrip.Items.Add("Exit").Click += (s, e) => ExitApplication();
 		}
 
 		public void ShowMainWindow() {
@@ -56,33 +56,31 @@ namespace Scriba {
 		}
 
 		public void ShowEntriesWindow() {
-			if(entriesWindow == null) {
-				entriesWindow = new EntriesWindow();
-				entriesWindow.Show();
-				entriesWindow.Closed += (s, e) => {
-					entriesWindow = null;
+			if(_entriesWindow == null) {
+				_entriesWindow = new EntriesWindow();
+				_entriesWindow.Show();
+				_entriesWindow.Closed += (s, e) => {
+					_entriesWindow = null;
 				};
 			}
 		}
 
-		private void OnShowEntryHotKey(UnManaged.HotKey hotKey) {
+		private void OnShowEntryHotKey(HotKey hotKey) {
 			ShowMainWindow();
 		}
 
 		public void ExitApplication() {
-			isExit = true;
+			_isExit = true;
 			MainWindow.Close();
-			if(entriesWindow != null) {
-				entriesWindow.Close();
-			}
-			notifyIcon.Dispose();
-			showEntry.Dispose();
-			db.Dispose();
-			notifyIcon = null;
+			_entriesWindow?.Close();
+			_notifyIcon.Dispose();
+			_showEntry.Dispose();
+			Db.Dispose();
+			_notifyIcon = null;
 		}
 
 		private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-			if(!isExit) {
+			if(!_isExit) {
 				e.Cancel = true;
 				MainWindow.Hide();
 			}

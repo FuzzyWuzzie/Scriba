@@ -1,5 +1,5 @@
 ﻿namespace Scriba {
-	public interface Command {
+	public interface ICommand {
 		string[] Identifiers { get; }
 		void Execute(string args);
 	}

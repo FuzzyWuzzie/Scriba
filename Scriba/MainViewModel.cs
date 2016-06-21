@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Input;
 
 namespace Scriba {
 	class MainViewModel : INotifyPropertyChanged {
@@ -10,10 +9,10 @@ namespace Scriba {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private List<Command> commands = new List<Command>();
+		private readonly List<ICommand> _commands = new List<ICommand>();
 		public MainViewModel() {
-			commands.Add(new Commands.Notes());
-			commands.Add(new Commands.Quit());
+			_commands.Add(new Commands.Notes());
+			_commands.Add(new Commands.Quit());
 		}
 
 		public string CurrentTime {
@@ -23,29 +22,29 @@ namespace Scriba {
 			}
 		}
 
-		private string currentEntry = "";
+		private string _currentEntry = "";
 		public string CurrentEntry {
-			get { return currentEntry; }
+			get { return _currentEntry; }
 			set {
-				currentEntry = value;
+				_currentEntry = value;
 				NotifyPropertyChanged("CurrentEntry");
 			}
 		}
 
-		public ICommand Hide {
+		public System.Windows.Input.ICommand Hide {
 			get {
-				return new DelegateCommand<object>(context => {
-					App.Current.MainWindow.Hide();
+				return new DelegateCommand(context => {
+					System.Windows.Application.Current.MainWindow.Hide();
 				});
 			}
 		}
 
-		private Command GetCommand(string entry) {
+		private ICommand GetCommand(string entry) {
 			// make sure it starts with the command signal
 			if(entry.Length < 2 || entry[0] != '/') return null;
 			
 			string entryLowerCase = entry.Substring(1).ToLower();
-			foreach(Command c in commands) {
+			foreach(ICommand c in _commands) {
 				foreach(string i in c.Identifiers) {
 					if(entryLowerCase == i || entryLowerCase.StartsWith(i + " ")) {
 						return c;
@@ -55,19 +54,19 @@ namespace Scriba {
 			return null;
 		}
 
-		public ICommand SaveEntry {
+		public System.Windows.Input.ICommand SaveEntry {
 			get {
-				return new DelegateCommand<object>(context => {
-				Command cmd = GetCommand(CurrentEntry);
+				return new DelegateCommand(context => {
+				var cmd = GetCommand(CurrentEntry);
 				if(cmd != null) {
 						// get the 'args' portion
-						string[] parts = CurrentEntry.Split(new char[] { ' ' }, 2);
+						string[] parts = CurrentEntry.Split(new[] { ' ' }, 2);
 						cmd.Execute(parts.Length > 1 ? parts[1] : "");
 					}
 					else {
-						string entry = CurrentEntry;
-						App.db.Add(new Entry(entry, DateTime.Now));
-						App.Current.MainWindow.Hide();
+						var entry = CurrentEntry;
+						App.Db.Add(new Entry(entry, DateTime.Now));
+						System.Windows.Application.Current.MainWindow.Hide();
 					}
 
 					CurrentEntry = "";

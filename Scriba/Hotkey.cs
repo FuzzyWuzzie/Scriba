@@ -5,15 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Mime;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace UnManaged {
+namespace Scriba {
 	public class HotKey : IDisposable {
 		private static Dictionary<int, HotKey> _dictHotKeyToCalBackProc;
 
@@ -25,11 +21,11 @@ namespace UnManaged {
 
 		public const int WmHotKey = 0x0312;
 
-		private bool _disposed = false;
+		private bool _disposed;
 
-		public Key Key { get; private set; }
-		public KeyModifier KeyModifiers { get; private set; }
-		public Action<HotKey> Action { get; private set; }
+		public Key Key { get; }
+		public KeyModifier KeyModifiers { get; }
+		public Action<HotKey> Action { get; }
 		public int Id { get; set; }
 
 		// ******************************************************************
@@ -50,12 +46,12 @@ namespace UnManaged {
 
 			if(_dictHotKeyToCalBackProc == null) {
 				_dictHotKeyToCalBackProc = new Dictionary<int, HotKey>();
-				ComponentDispatcher.ThreadFilterMessage += new ThreadMessageEventHandler(ComponentDispatcherThreadFilterMessage);
+				ComponentDispatcher.ThreadFilterMessage += ComponentDispatcherThreadFilterMessage;
 			}
 
 			_dictHotKeyToCalBackProc.Add(Id, this);
 
-			Debug.Print(result.ToString() + ", " + Id + ", " + virtualKeyCode);
+			Debug.Print(result + ", " + Id + ", " + virtualKeyCode);
 			return result;
 		}
 
@@ -73,12 +69,9 @@ namespace UnManaged {
 				if(msg.message == WmHotKey) {
 					HotKey hotKey;
 
-					if(_dictHotKeyToCalBackProc.TryGetValue((int)msg.wParam, out hotKey)) {
-						if(hotKey.Action != null) {
-							hotKey.Action.Invoke(hotKey);
-						}
-						handled = true;
-					}
+					if (!_dictHotKeyToCalBackProc.TryGetValue((int) msg.wParam, out hotKey)) return;
+					hotKey.Action?.Invoke(hotKey);
+					handled = true;
 				}
 			}
 		}
@@ -107,7 +100,7 @@ namespace UnManaged {
 		// other objects. Only unmanaged resources can be _disposed.
 		protected virtual void Dispose(bool disposing) {
 			// Check to see if Dispose has already been called.
-			if(!this._disposed) {
+			if(!_disposed) {
 				// If disposing equals true, dispose all managed
 				// and unmanaged resources.
 				if(disposing) {

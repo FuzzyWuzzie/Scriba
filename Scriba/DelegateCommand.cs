@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Input;
 
 namespace Scriba {
-	class DelegateCommand<T> : ICommand {
+	class DelegateCommand : System.Windows.Input.ICommand {
 		private readonly Predicate<object> _canExecute;
 		private readonly Action<object> _execute;
 

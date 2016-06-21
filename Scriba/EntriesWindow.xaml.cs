@@ -1,13 +1,11 @@
-﻿using System.Windows;
-
-namespace Scriba {
+﻿namespace Scriba {
 	/// <summary>
 	/// Interaction logic for EntriesWindow.xaml
 	/// </summary>
-	public partial class EntriesWindow : Window {
+	public partial class EntriesWindow {
 		public EntriesWindow() {
 			InitializeComponent();
-			((EntriesViewModel)this.DataContext).window = this;
+			((EntriesViewModel)DataContext).Window = this;
 		}
 	}
 }

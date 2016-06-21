@@ -1,14 +1,9 @@
 ﻿namespace Scriba.Commands {
-	class Quit : Command {
-		readonly string[] ids = { "quit", "exit" };
-		public string[] Identifiers {
-			get {
-				return ids;
-			}
-		}
+	class Quit : ICommand {
+		public string[] Identifiers { get; } = { "quit", "exit" };
 
 		public void Execute(string args) {
-			((App)App.Current).ExitApplication();
+			((App)System.Windows.Application.Current).ExitApplication();
 		}
 	}
 }

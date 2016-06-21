@@ -1,17 +1,17 @@
 ﻿using System;
 namespace Scriba {
 	public class Entry {
-		public string entry { get; private set; }
-		public DateTime time { get; private set; }
+		public string Note { get; private set; }
+		public DateTime Time { get; private set; }
 
 		public Entry(string entry) {
-			this.entry = entry;
-			time = DateTime.Now;
+			Note = entry;
+			Time = DateTime.Now;
 		}
 
 		public Entry(string entry, DateTime time) {
-			this.entry = entry;
-			this.time = time;
+			Note = entry;
+			Time = time;
 		}
 	}
 }
